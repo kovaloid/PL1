@@ -14,4 +14,6 @@ absloadm.exe: absloadm.c
 	@echo "________a b s l o a d m . e x e    g e n e r a t i o n______"
 	gcc -o absloadm.exe absloadm.c -lncurses
 	@echo "____________________________________________________________"
+clean:
+	rm absloadm.exe kompassr.exe komppl.exe examppl.tex examppl.ass
 
