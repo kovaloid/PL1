@@ -939,7 +939,7 @@ int main( int argc, char **argv )                /*главная програм
 
    {
     printf ( "%s\n", "Ошибка в командной строке" );
-    return;
+    return 1;
    }
 
 
@@ -947,7 +947,7 @@ int main( int argc, char **argv )                /*главная програм
 
    {
     printf ( "%s\n", "Неверный тип файла с исходным текстом" );
-    return;
+    return 1;
    }
 
 
@@ -958,7 +958,7 @@ int main( int argc, char **argv )                /*главная програм
 						  /* сообщение об ошибке    */
      {
       printf ( "%s\n", "Не найден файл с исходным текстом" );
-      return;
+      return 1;
      }
 
     else
@@ -974,7 +974,7 @@ int main( int argc, char **argv )                /*главная програм
 	  else
 	   {
 	    printf ( "%s\n", "Ошибка при чтении фыйла с исх.текстом" );
-	    return;
+	    return 1;
 	   }
 	 }
            for (int i=0; i<strlen(ASSTEXT [I1]); i++)
@@ -986,7 +986,7 @@ int main( int argc, char **argv )                /*главная програм
        }
 
       printf ( "%s\n", "Переполнение буфера чтения исх.текста" );
-      return;
+      return 1;
      }
 
    }
@@ -1163,7 +1163,7 @@ CONT5:
        "ошибка при формировании об'ектного файла"
       );
    }
-    return;                                       /*завершить main-прогр.   */
+    return 0;                                       /*завершить main-прогр.   */
 
 ERR1:
   printf ("%s\n","ошибка формата данных");        /*выдать диагностич.сообщ.*/
