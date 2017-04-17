@@ -977,7 +977,8 @@ int main( int argc, char **argv )                /*главная програм
 	    return 1;
 	   }
 	 }
-           for (int i=0; i<strlen(ASSTEXT [I1]); i++)
+		   int i;
+           for (i=0; i<strlen(ASSTEXT [I1]); i++)
            {
               if(ASSTEXT [I1][i]=='\n')
                 ASSTEXT [I1][i]=0;
