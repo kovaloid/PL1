@@ -457,7 +457,7 @@ struct
   {/*.  14     .*/   "RZR" , 139 , 'N' },
   {/*.  15     .*/   "TEL" , 179 , 'N' },
   {/*.  16     .*/   "ZNK" ,   0 , 'N' },
-  {/*.  17     .*/   "CKL" , 222 , 'N' },
+  {/*.  17     .*/   "CKL" , 230 , 'N' },
   {/*.  18     .*/   "A  " ,  33 , 'T' },
   {/*.  19     .*/   "B  " ,  36 , 'T' },
   {/*.  20     .*/   "C  " ,  39 , 'T' },
@@ -688,6 +688,9 @@ void mdst ( char* T1, int T2, int T3, int T4, int T5 )
   DST [ L ].DST3 = T3;
   DST [ L ].DST4 = T4;
   DST [ L ].DST5 = T5;
+	 
+  //printf("%d) %s %d %d %d %d\n", L, DST [ L ].DST1, T2, T3, T4, T5);
+	 
   L++;
  }
 
@@ -1565,6 +1568,7 @@ int OEN2 ()
        }
      }
    }
+	 
 						  /* далее идет блок декла- */
 						  /* ративных ассемблеровс- */
 						  /* ких EQU-операторов, оп-*/
@@ -1579,6 +1583,27 @@ int OEN2 ()
 						  /*           и            */
   ZKARD ();                                       /* запоминание ее         */
 
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R0", 2 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "0", 1 );   /* номера базового регист-*/
+						  /* ра общего назначения   */
+						  /*            и           */
+  ZKARD ();   
+	 
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R1", 2 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "1", 1 );   /* номера базового регист-*/
+						  /* ра общего назначения   */
+						  /*            и           */
+  ZKARD ();                                       /* запоминание ее         */ 
+	 
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R2", 2 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "2", 1 );   /* номера базового регист-*/
+						  /* ра общего назначения   */
+						  /*            и           */
+  ZKARD ();                                       /* запоминание ее         */
+	 
   memcpy ( ASS_CARD._BUFCARD.METKA, "RRAB", 4 );  /* формирование EQU-псев- */
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
   memcpy ( ASS_CARD._BUFCARD.OPERAND, "5", 1 );   /* номера базового регист-*/
@@ -1817,11 +1842,115 @@ int CKL2 ()
 	 FORMT[9] variable S
 	 FORMT[10]  variable N
 	 FORMT[11] END*/
-				 //memcpy ( ASS_CARD._BUFCARD.METKA, "LOOP", 4 );
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAC, "CP", 2 );
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAND, "N", 1 );
-				 //memcpy ( ASS_CARD._BUFCARD.COMM, "the loop", 8 );
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R0,1", 4 );
+				 ZKARD ();
+
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [2]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [4]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.METKA, "LOOP1", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R0", 5 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 //memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
+				 //memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
 				 //ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "LOOP1", 5 );
+				 ZKARD ();
+				 
+				 // --------------------------------------------
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [5]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [7]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.METKA, "LOOP2", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R0", 5 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				 ZKARD ();
+				 
+				 //memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
+				 //memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
+				 //ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
+				 ZKARD ();
+				 
+				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "LOOP2", 5 );
+				 ZKARD ();
+				 		 
 				 return 0;
 			 }
 			 else

@@ -1,4 +1,4 @@
-﻿#define DL_ASSTEXT 30
+﻿#define DL_ASSTEXT 50
 #define DL_OBJTEXT 50                             /*длина об'ектн. текста   */
 #define NSYM 10                                   /*размер табл.символов    */
 #define NPOP 6                                    /*размер табл.псевдоопер. */
