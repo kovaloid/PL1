@@ -1830,19 +1830,6 @@ int CKL2 ()
 		 {
 			 if ( SYM [i].TYPE == 'B' )
 			 {
-   /*FORMT[0] DO
-	 FORMT[1] variable N
-	 FORMT[2] 1 number
-	 FORMT[3] TO
-	 FORMT[4] 2 number
-	 FORMT[5] 3 number
-	 FORMT[6] TO
-	 FORMT[7] 4 number
-	 FORMT[8] variable S
-	 FORMT[9] variable S
-	 FORMT[10]  variable N
-	 FORMT[11] END*/
-				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R0,1", 4 );
 				 ZKARD ();
@@ -1886,9 +1873,35 @@ int CKL2 ()
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
-				 //ZKARD ();
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+				 {
+					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
+					 AVI2();
+				 }
+				 I2++;
+				 I2++;
+				 I2++;
+				 I2++;
+				 I2++;
+				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+				 {
+					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
+					 AVI2();
+				 }
+				 I2++;
+				 if ( !strcmp( DST [I2].DST1 , "OPA" ) )
+				 {
+					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
+					 OPA2();
+				 }
+				 I2++;
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
@@ -1939,9 +1952,35 @@ int CKL2 ()
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
-				 //memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
-				 //ZKARD ();
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 I2--;
+				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+				 {
+					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
+					 AVI2();
+				 }
+				 I2++;
+				 I2++;
+				 I2++;
+				 I2++;
+				 I2++;
+				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+				 {
+					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
+					 AVI2();
+				 }
+				 I2++;
+				 if ( !strcmp( DST [I2].DST1 , "OPA" ) )
+				 {
+					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
+					 OPA2();
+				 }
+				 I2++;
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
@@ -2016,6 +2055,13 @@ int gen_COD ()                                    /*интерпретации �
 	) != 0
       )
     return (NOSH);                                /* выход из программы     */
+	 else {
+		 int i;
+		 printf("%d: %s: ", I2, DST [I2].DST1);
+		 for ( i = DST [I2].DST2; i <= DST [I2].DST4; i++ )
+			 printf("%c", STROKA [i]);
+		 printf("\n");
+	 }
 						  /* по ошибке              */
 
   return 0;                                       /* успешное завершение    */
