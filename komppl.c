@@ -25,6 +25,9 @@
 						  /* мента исх.текста;      */
 #define NSYM      100                             /* - таблицы имен и меток */
 
+int CKL_DETECTED = 0;
+int CKL_RUNNING = 0;
+
 /*
 ***** Б а з а  данных компилятора
 */
@@ -1253,6 +1256,21 @@ int AVI2 ()
 						  /*арифметического ПЛ1-опе-*/
 						  /*ратора присваивания     */
 
+	 
+	 int j;
+	 for ( j = 0; j < 8; j++ ) {
+		 if ( !strcmp( DST [I2].DST1 , "CKL" ) && CKL_DETECTED == 0 ) {
+			 printf("[AVI] CKL detected at future step : %d\n", I2);
+			 CKL_DETECTED = 1;
+		 }
+		 I2++;
+	 }
+	 for ( j = 0; j < 8; j++ ) {
+		 I2--;
+	 }
+	 
+	 if ( (CKL_RUNNING == 1 && CKL_DETECTED == 1) || (CKL_RUNNING == 0 && CKL_DETECTED == 0) ) {
+	 
   if ( IFORMT == 1 )                              /* если правая часть одно-*/
      {                                            /* термовая, то:          */
     for ( i = 0; i < ISYM; i++ )                  /* ищем этот терм в табли-*/
@@ -1381,6 +1399,9 @@ int AVI2 ()
 						  /* SYM, то завершить про- */
 						  /* грамму по ошибке       */
    }
+		
+	} else
+		return 0;
 
  }
 
@@ -1644,6 +1665,20 @@ int OPA2 ()
   FORM ();                                        /*форматируем ПЛ1-оператор*/
 						  /*присваивания арифметич. */
 
+	 int j;
+	 for ( j = 0; j < 8; j++ ) {
+		 if ( !strcmp( DST [I2].DST1 , "CKL" ) && CKL_DETECTED == 0 ) {
+			 printf("[OPA] CKL detected at future step : %d\n", I2);
+			 CKL_DETECTED = 1;
+		 }
+		 I2++;
+	 }
+	 for ( j = 0; j < 8; j++ ) {
+		 I2--;
+	 }
+	 
+	 if ( (CKL_RUNNING == 1 && CKL_DETECTED == 1) || (CKL_RUNNING == 0 && CKL_DETECTED == 0) ) {
+	 
   for ( i = 0; i < ISYM; i++ )
    {                                              /* если идентификатор пра-*/
 						  /* вой части оператора оп-*/
@@ -1693,6 +1728,8 @@ int OPA2 ()
 						  /* вершение с диагностикой*/
 						  /* ошибки                 */
 
+	 } else
+		 return 0;
  }
 
 /*..........................................................................*/
@@ -1821,6 +1858,8 @@ int ZNK2 ()
 
 int CKL2 ()
  {
+	 CKL_DETECTED = 0;
+	 CKL_RUNNING = 1;
 	 int i;
 	 FORM ();
 	 for ( i = 0; i < ISYM; i++ )
@@ -1989,6 +2028,9 @@ int CKL2 ()
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "LOOP2", 5 );
 				 ZKARD ();
+				 
+				 CKL_DETECTED = 0;
+	             CKL_RUNNING = 0;
 				 		 
 				 return 0;
 			 }
