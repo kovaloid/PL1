@@ -1951,6 +1951,7 @@ int CKL2 ()
 				 ZKARD ();
 				 
 				 // --------------------------------------------
+				 FORM ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
