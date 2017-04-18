@@ -1,19 +1,15 @@
 # Script for Programming system generation
 all: komppl.exe kompassr.exe absloadm.exe
 komppl.exe: komppl.c
-	@echo "________k o m p p l . e x e        g e n e r a t i o n______"
+	@echo "   [ PL1 compiler generation ] [ komppl.exe ] "
 	gcc -w -o komppl.exe komppl.c
-	@echo "____________________________________________________________"
 kompassr.exe: kompassr.c
-	@echo "________k o m p a s s r . e x e    g e n e r a t i o n______"
+	@echo "   [ IBM370 assembler compiler generation ] [ kompassr.exe ] "
 	gcc -w -o kompassr.exe kompassr.c
-	@echo "____________________________________________________________"
 absloadm.exe: absloadm.c
-	@echo "________a b s l o a d m . e x e    g e n e r a t i o n______"
+	@echo "   [ DEBUGGER generation ] [ absloadm.exe ] "
 	gcc -w -o absloadm.exe absloadm.c -lncurses
-	@echo "____________________________________________________________"
 clean:
-	@echo "__________________________c l e a n_________________________"
-	rm absloadm.exe kompassr.exe komppl.exe examppl.tex examppl.ass
-	@echo "____________________________________________________________"
+	@echo "   [ clean ] "
+	rm -f absloadm.exe kompassr.exe komppl.exe examppl.tex examppl.ass
 
