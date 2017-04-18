@@ -10,10 +10,10 @@
 #define  NSPIS  5                                 /*разм.списка загр.прогр. */
 #define  NOBJ   50                                /*разм.масс.об'ектных карт*/
 #define  DOBLZ  1024                              /*длина области загрузки  */
-#define  NOP 6                                    /*кол-во обрабатываемых   */
+#define  NOP 10                                   /*кол-во обрабатываемых   */
 						  /* команд                 */
 
-
+char opname[6];
 char NFIL [30] = "\x0";
 
 int  IOBJC   = 0;                                 /*инд.вакантн.стр. OBJCARD*/
@@ -127,6 +127,11 @@ int BAS_IND;                                      /*индекс масс.обл
 {{'L' , ' ' , ' ' , ' ' , ' '} , '\x58', 4 , FRX}, /*машинных                */
 {{'A' , ' ' , ' ' , ' ' , ' '} , '\x5A', 4 , FRX}, /*операций                */
 {{'S' , ' ' , ' ' , ' ' , ' '} , '\x5B', 4 , FRX}, /*                        */
+
+{{'L' , 'A' , ' ' , ' ' , ' '} , '\x41', 4 , FRX},
+{{'A' , 'R' , ' ' , ' ' , ' '} , '\x1A', 2 , FRR},
+{{'C' , 'R' , ' ' , ' ' , ' '} , '\x19', 2 , FRR},
+{{'B' , 'N' , 'E' , ' ' , ' '} , '\x47', 4 , FRX}
     };
 //..........................................................................
 //п р о г р а м м а реализации семантики команды BALR
@@ -379,7 +384,7 @@ int sys(void)
 //нижнее поле     
   wmargenta = newwin(1, 80, 24, 0);
   wbkgd(wmargenta, COLOR_PAIR(COLOR_MAGENTA));
-  waddstr(wmargenta, "\"PgUp\",\"PgDn\",\"Up\",\"Down\"->dump view; \"Enter\"->execute next instruction"); // просмотр дампа; выполнить очередную команду
+  waddstr(wmargenta, "\"PgUp\",\"PgDn\",\"Up\",\"Down\"->scroll dump; \"Enter\"->execute next instruction"); // просмотр дампа; выполнить очередную команду
       
 //строка состояния
   wcyan = newwin(1, 80, 23, 0);
@@ -527,6 +532,9 @@ goto WAIT;
 
 SKIP:
 
+   memcpy(opname, T_MOP[k].MNCOP, 5*sizeof(char));
+   opname[6]=0;
+
    switch (T_MOP[k].CODOP)                        //согласно  коду команды, 
    {                                              //селектируемой сч.адреса 
 						  //выбрать подпрогр.интер- 
@@ -545,6 +553,10 @@ SKIP:
     case '\x5A' : P_A();
 		   break;
     case '\x5B' : P_S();
+		   break;
+    default:
+           return 10;
+           break;
    }
    
    goto BEGIN;	
@@ -716,6 +728,11 @@ CONT2:
       endwin();
       goto ERR8;
     }
+	case 10:
+    {
+      endwin();
+      goto ERR10;
+    }
   }
   
   endwin(); 
@@ -761,5 +778,9 @@ ERR8:
 
 ERR9:
   printf ( "%s\n", "Invalid type of source file" ); // Неверный тип файла с исходным текстом
+  goto END;
+	
+ERR10:
+  printf ( "%s'%s'\n", "Не обработанная инструкция ",opname);
   goto END;
 }
