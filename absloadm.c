@@ -320,23 +320,30 @@ int FRX(void)
       R1 = j;
       wprintw(wgreen, "%.1d, ", j);
       
-      j = INST[2] % 16;
-      j = j * 256 + INST[3];
-      D = j;
-      wprintw(wgreen, "X'%.3X'(", j);
+		if (INST[0] == '\x41') {
+            j = INST[3];
+			ADDR = 0;
+            wprintw(wgreen, "X'%.3X'\n", j);
+		} else {
+			j = INST[2] % 16;
+            j = j * 256 + INST[3];
+            D = j;
+            wprintw(wgreen, "X'%.3X'(", j);
       
-      j = INST[1] % 16;
-      X = j;
-      wprintw(wgreen, "%1d, ", j);
+            j = INST[1] % 16;
+            X = j;
+            wprintw(wgreen, "%1d, ", j);
       
-      j = INST[2] >> 4;
-      B = j;
-      wprintw(wgreen, "%1d)", j);
+            j = INST[2] >> 4;
+            B = j;
+            wprintw(wgreen, "%1d)", j);
       
-      ADDR = VR[B] + VR[X] + D;
-      wprintw(wgreen,"        %.06lX       \n", ADDR);
-      if (ADDR % 4 != 0)
-        return (7);
+            ADDR = VR[B] + VR[X] + D;
+            wprintw(wgreen,"        %.06lX       \n", ADDR);
+            if (ADDR % 4 != 0)
+				return (7);	
+		}
+
       break;
     }
   }
