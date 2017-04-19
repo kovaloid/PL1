@@ -255,25 +255,40 @@ int P_S()                                         /* п р о г р а м м а 
 //..........................................................................
 
 int P_LA() {
-  return 0;
+	VR[R1] = D;
+	return 0;
 }
 
 //..........................................................................
 
 int P_AR() {
-  return 0;
+	VR[R1] = VR[R1] + VR[R2];
+	return 0;
 }
 
 //..........................................................................
 
+int COMPARE_RES = 0;
+
 int P_CR() {
-  return 0;
+	if ( VR[R1] < VR[R2] ) {
+		COMPARE_RES = -1;
+	} else if ( VR[R1] > VR[R2] ) {
+		COMPARE_RES = 1;
+	} else {
+		COMPARE_RES = 0;
+	}
+	return 0;
 }
 
 //..........................................................................
 
 int P_BNE() {
-  return 0;
+	if ( COMPARE_RES != 0 ) {
+		I = VR[B] + D;
+		CUR_IND = ( int ) ( I - BAS_ADDR );
+	}
+	return 0;
 }
 
 //..........................................................................
@@ -319,10 +334,12 @@ int FRX(void)
       j = INST[1] >> 4;
       R1 = j;
       wprintw(wgreen, "%.1d, ", j);
-      
+		
 		if (INST[0] == '\x41') {
-            j = INST[3];
-			ADDR = 0;
+            //j = INST[3];
+			//D = j;
+			//ADDR = 0;
+			D = INST[3];
             wprintw(wgreen, "X'%.3X'\n", j);
 		} else {
 			j = INST[2] % 16;
@@ -340,8 +357,8 @@ int FRX(void)
       
             ADDR = VR[B] + VR[X] + D;
             wprintw(wgreen,"        %.06lX       \n", ADDR);
-            if (ADDR % 4 != 0)
-				return (7);	
+           // if (ADDR % 4 != 0)
+			//	return (7);	
 		}
 
       break;
@@ -388,7 +405,7 @@ int wind(void)
       }
     }
 
-    waddstr(wred, " */");
+    waddstr(wred, " */ ");
     I1 += 16;
   }
   wrefresh(wred);			//вывод на экран
@@ -596,7 +613,6 @@ SKIP:
 		   break;
     default:
            return 10;
-           break;
    }
    
    goto BEGIN;	
