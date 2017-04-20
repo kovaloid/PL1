@@ -310,7 +310,8 @@ int FRR(void)
       wprintw(wgreen, "%1d, ", j);
       j = INST[1] % 0x10;
       R2 = j;
-      wprintw(wgreen, "%1d\n", j);
+      //wprintw(wgreen, "%1d\n", j);
+      wprintw(wgreen, "%1d                           \n", j);
       break;
     }
   }
@@ -574,6 +575,12 @@ WAIT:
       CUR_IND = (int)(I1 - BAS_ADDR);
       wind();
       goto WAIT;
+    }
+
+	case  27:  // ESC button
+    {
+      endwin();
+	  exit(0);
     }
   }
 goto WAIT;
