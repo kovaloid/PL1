@@ -1604,23 +1604,23 @@ int OEN2 ()
 						  /*           и            */
   ZKARD ();                                       /* запоминание ее         */
 
-  memcpy ( ASS_CARD._BUFCARD.METKA, "R0", 2 );  /* формирование EQU-псев- */
-  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
-  memcpy ( ASS_CARD._BUFCARD.OPERAND, "0", 1 );   /* номера базового регист-*/
-						  /* ра общего назначения   */
-						  /*            и           */
-  ZKARD ();   
-	 
   memcpy ( ASS_CARD._BUFCARD.METKA, "R1", 2 );  /* формирование EQU-псев- */
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
   memcpy ( ASS_CARD._BUFCARD.OPERAND, "1", 1 );   /* номера базового регист-*/
 						  /* ра общего назначения   */
 						  /*            и           */
-  ZKARD ();                                       /* запоминание ее         */ 
+  ZKARD ();   
 	 
   memcpy ( ASS_CARD._BUFCARD.METKA, "R2", 2 );  /* формирование EQU-псев- */
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
   memcpy ( ASS_CARD._BUFCARD.OPERAND, "2", 1 );   /* номера базового регист-*/
+						  /* ра общего назначения   */
+						  /*            и           */
+  ZKARD ();                                       /* запоминание ее         */ 
+	 
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R3", 2 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "3", 1 );   /* номера базового регист-*/
 						  /* ра общего назначения   */
 						  /*            и           */
   ZKARD ();                                       /* запоминание ее         */
@@ -1870,23 +1870,23 @@ int CKL2 ()
 			 if ( SYM [i].TYPE == 'B' )
 			 {
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R0,1", 4 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,1", 4 );
 				 ZKARD ();
 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [2]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [4]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
@@ -1897,17 +1897,17 @@ int CKL2 ()
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R0", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R1", 5 );
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
@@ -1943,7 +1943,7 @@ int CKL2 ()
 				 I2++;
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
@@ -1954,19 +1954,19 @@ int CKL2 ()
 				 FORM ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [5]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [7]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
@@ -1977,17 +1977,17 @@ int CKL2 ()
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R0", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R1", 5 );
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1," );
+				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
 	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				 ZKARD ();
@@ -2023,7 +2023,7 @@ int CKL2 ()
 				 I2++;
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,R2", 5 );
+				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
 				 ZKARD ();
 				 
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );

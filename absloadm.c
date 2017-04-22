@@ -358,8 +358,8 @@ int FRX(void)
       
             ADDR = VR[B] + VR[X] + D;
             wprintw(wgreen,"        %.06lX       \n", ADDR);
-           // if (ADDR % 4 != 0)
-			//	return (7);	
+            if (ADDR % 2 != 0)
+				return (7);
 		}
 
       break;
