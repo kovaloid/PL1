@@ -17,7 +17,7 @@
 #define NCEL       20                             /* - стека целей;         */
 #define NDST      500                             /* - стека достижений;    */
 #define NVXOD      55                             /* - табл.входов;         */
-#define NSTROKA   200                             /* - строки плотн.текста; */
+#define NSTROKA   500                             /* - строки плотн.текста; */
 #define NNETRM     17                             /* - списка нетерминалов; */
 #define MAXLTXT    50                             /* - выходного текста;    */
 #define MAXFORMT   30                             /* - форматированного ин- */
