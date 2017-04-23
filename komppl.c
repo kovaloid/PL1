@@ -1869,13 +1869,56 @@ int ZNK2 ()
 
 /*..........................................................................*/
 
+char LOOP_LABEL_BASE[4] = "LOOP";
+int loopNumber = 1;
+
+void goBack(int steps) {
+  for (int i = 0; i < steps; i++) {
+    I2--;
+  }
+}
+
+void goForward(int steps) {
+  for (int i = 0; i < steps; i++) {
+    I2++;
+  }
+}
+
+void doLoopBody() {
+  goBack(7);
+  if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+  {
+    printf("[CKL-%d] call %s at step: %d\n", loopNumber, DST [I2].DST1, I2);
+    AVI2();
+  }
+  goForward(5);
+  if ( !strcmp( DST [I2].DST1 , "AVI" ) )
+  {
+    printf("[CKL-%d] call %s at step: %d\n", loopNumber, DST [I2].DST1, I2);
+    AVI2();
+  }
+  goForward(1);
+  if ( !strcmp( DST [I2].DST1 , "OPA" ) )
+  {
+    printf("[CKL-%d] call %s at step: %d\n", loopNumber, DST [I2].DST1, I2);
+    OPA2();
+  }
+  goForward(1);
+}
+
+
 
 int CKL2 ()
  {
+   char LOOP_LABEL[6];
+   char LOOP_LABEL_POSTFIX[2];
+
 	 CKL_DETECTED = 0;
 	 CKL_RUNNING = 1;
+
 	 int i;
 	 FORM ();
+
 	 for ( i = 0; i < ISYM; i++ )
 	 {
 		 if ( !strcmp ( SYM [i].NAME, FORMT [1] )  &&
@@ -1886,166 +1929,69 @@ int CKL2 ()
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,1", 4 );
 				 ZKARD ();
+         
+         for (int j = 0; j < 2; j++) {
+           sprintf(LOOP_LABEL_POSTFIX,"%d",loopNumber);
+           strcpy(LOOP_LABEL, LOOP_LABEL_BASE);
+           strcat(LOOP_LABEL, LOOP_LABEL_POSTFIX);
+           printf("start loop with label: %s\n", LOOP_LABEL);
+         
+           FORM ();
 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [2]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 2 ]);
+				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [4]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
+				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
+           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 4 ]);
+				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.METKA, "LOOP1", 5 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.METKA, LOOP_LABEL, 5 );
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
+				   memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
+				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R1", 5 );
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
+				   memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R1", 5 );
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
+				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+				   ZKARD ();
 				 
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
-				 {
-					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
-					 AVI2();
-				 }
-				 I2++;
-				 I2++;
-				 I2++;
-				 I2++;
-				 I2++;
-				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
-				 {
-					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
-					 AVI2();
-				 }
-				 I2++;
-				 if ( !strcmp( DST [I2].DST1 , "OPA" ) )
-				 {
-					 printf("[CKL] call %s 1 at step: %d\n", DST [I2].DST1, I2);
-					 OPA2();
-				 }
-				 I2++;
+           doLoopBody();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
+				   memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
+				   ZKARD ();
 				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "LOOP1", 5 );
-				 ZKARD ();
+				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
+				   memcpy ( ASS_CARD._BUFCARD.OPERAND, LOOP_LABEL, 5 );
+				   ZKARD ();
+         
+           loopNumber++;
+         }
 				 
-				 // --------------------------------------------
-				 FORM ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [5]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [7]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.METKA, "LOOP2", 5 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU", 3 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "*", 1 );
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "AR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R1", 5 );
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
-				 strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-	             strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
-				 ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
-				 ZKARD ();
-				 
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 I2--;
-				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
-				 {
-					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
-					 AVI2();
-				 }
-				 I2++;
-				 I2++;
-				 I2++;
-				 I2++;
-				 I2++;
-				 if ( !strcmp( DST [I2].DST1 , "AVI" ) )
-				 {
-					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
-					 AVI2();
-				 }
-				 I2++;
-				 if ( !strcmp( DST [I2].DST1 , "OPA" ) )
-				 {
-					 printf("[CKL] call %s 2 at step: %d\n", DST [I2].DST1, I2);
-					 OPA2();
-				 }
-				 I2++;
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
-				 ZKARD ();
-				 
-				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "BNE", 3 );
-				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "LOOP2", 5 );
-				 ZKARD ();
-				 
-				 CKL_DETECTED = 0;
-	             CKL_RUNNING = 0;
+         CKL_DETECTED = 0;
+         CKL_RUNNING = 0;
 				 		 
 				 return 0;
 			 }
