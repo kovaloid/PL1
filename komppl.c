@@ -1873,13 +1873,15 @@ char LOOP_LABEL_BASE[4] = "LOOP";
 int loopNumber = 1;
 
 void goBack(int steps) {
-  for (int i = 0; i < steps; i++) {
+  int i;
+  for (i = 0; i < steps; i++) {
     I2--;
   }
 }
 
 void goForward(int steps) {
-  for (int i = 0; i < steps; i++) {
+  int i;
+  for (i = 0; i < steps; i++) {
     I2++;
   }
 }
@@ -1929,30 +1931,30 @@ int CKL2 ()
 				 memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				 memcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,1", 4 );
 				 ZKARD ();
+                                 int j;
+                                 for (j = 0; j < 2; j++) {
+                                   sprintf(LOOP_LABEL_POSTFIX,"%d",loopNumber);
+                                   strcpy(LOOP_LABEL, LOOP_LABEL_BASE);
+                                   strcat(LOOP_LABEL, LOOP_LABEL_POSTFIX);
+                                   printf("start loop with label: %s\n", LOOP_LABEL);
          
-         for (int j = 0; j < 2; j++) {
-           sprintf(LOOP_LABEL_POSTFIX,"%d",loopNumber);
-           strcpy(LOOP_LABEL, LOOP_LABEL_BASE);
-           strcat(LOOP_LABEL, LOOP_LABEL_POSTFIX);
-           printf("start loop with label: %s\n", LOOP_LABEL);
-         
-           FORM ();
+                                   FORM ();
 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 2 ]);
+                                   strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 2 ]);
 				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				   ZKARD ();
 				 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "LA", 2 );
 				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R3," );
-           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 4 ]);
+                                   strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [ j * 3 + 4 ]);
 				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				   ZKARD ();
 				 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
 				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+                                   strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				   ZKARD ();
 				 
@@ -1963,7 +1965,7 @@ int CKL2 ()
 				 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );
 				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+                                   strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				   ZKARD ();
 				 
@@ -1973,11 +1975,11 @@ int CKL2 ()
 				 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "ST", 2 );
 				   strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
-           strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
+                                   strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [1]);
 				   ASS_CARD._BUFCARD.OPERAND [ strlen ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
 				   ZKARD ();
 				 
-           doLoopBody();
+                                   doLoopBody();
 				 
 				   memcpy ( ASS_CARD._BUFCARD.OPERAC, "CR", 2 );
 				   memcpy ( ASS_CARD._BUFCARD.OPERAND, "R2,R3", 5 );
@@ -1987,11 +1989,11 @@ int CKL2 ()
 				   memcpy ( ASS_CARD._BUFCARD.OPERAND, LOOP_LABEL, 5 );
 				   ZKARD ();
          
-           loopNumber++;
-         }
+                                   loopNumber++;
+                                 }
 				 
-         CKL_DETECTED = 0;
-         CKL_RUNNING = 0;
+                                 CKL_DETECTED = 0;
+                                 CKL_RUNNING = 0;
 				 		 
 				 return 0;
 			 }
