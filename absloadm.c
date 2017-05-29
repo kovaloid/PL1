@@ -277,11 +277,11 @@ int COMPARE_RES = 0;
 
 int P_CR() {
 	if ( VR[R1] < VR[R2] ) {
-		COMPARE_RES = -1;
-	} else if ( VR[R1] > VR[R2] ) {
 		COMPARE_RES = 1;
+	} else if ( VR[R1] > VR[R2] ) {
+		COMPARE_RES = 3;
 	} else {
-		COMPARE_RES = 0;
+		COMPARE_RES = 2;
 	}
 	return 0;
 }
@@ -289,7 +289,7 @@ int P_CR() {
 //..........................................................................
 
 int P_BNE() {
-	if ( COMPARE_RES != 0 ) {
+	if ( COMPARE_RES != 2 ) {
 		I = VR[B] + D;
 		CUR_IND = ( int ) ( I - BAS_ADDR );
 	}
