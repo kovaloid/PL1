@@ -1,7 +1,7 @@
 EXAMP: PROC OPTIONS (MAIN);
        DCL N BIN FIXED (15);
        DCL S BIN FIXED (15) INIT ( 0 );
-       DO N=1 TO 10, 15 TO 20;
+       DO N=1 TO 5, 8 TO 10;
            S = S + N;
        END;
 END EXAMP;
