@@ -520,7 +520,7 @@ int sys(void)
   wbkgd(wred, COLOR_PAIR(COLOR_RED));
   
 //поле регистров
-  wblue = newwin(16, 12, 0, 68);
+  wblue = newwin(17, 12, 0, 68);
   wbkgd(wblue, COLOR_PAIR(COLOR_BLUE));
   
 //текст  
@@ -598,6 +598,9 @@ l0:
     wprintw(wblue, "%d:", i);
     wprintw(wblue, "%.08lX", VR[i]);
   }      
+  waddstr(wblue, "CC :");
+  wprintw(wblue, "%.08lX", COMPARE_RES);
+	
   wrefresh(wblue);			//вывод на экран		  
   wclear(wblue);			//очистка окна регистров
   wind();   
